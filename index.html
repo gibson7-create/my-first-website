@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ChatGPT実践開発講座で制作した、はじめてのWebサイトです。">
+  <meta name="theme-color" content="#10182c">
+  <title>MY FIRST WEB | はじめてのWeb制作</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0d1322;
+      --panel: #151e32;
+      --panel-2: #202d47;
+      --ink: #f5f8ff;
+      --muted: #a8b6cc;
+      --accent: #8ab3ff;
+      --accent-ink: #101a34;
+      --line: #34415a;
+      --shadow: 0 18px 48px rgba(0, 0, 0, .17);
+    }
+    :root[data-theme="light"] {
+      color-scheme: light;
+      --bg: #f5f7fc;
+      --panel: #ffffff;
+      --panel-2: #e9efff;
+      --ink: #14213c;
+      --muted: #475a75;
+      --accent: #2153ad;
+      --accent-ink: #ffffff;
+      --line: #d9e1ed;
+      --shadow: 0 18px 48px rgba(25, 41, 71, .09);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif; line-height: 1.75; }
+    a { color: inherit; }
+    a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+    .skip { position: absolute; left: 12px; top: -100px; z-index: 10; padding: 8px 12px; background: var(--panel); }
+    .skip:focus { top: 10px; }
+    .shell { width: min(1080px, calc(100% - 38px)); margin: 0 auto; }
+    .header { border-bottom: 1px solid var(--line); }
+    .header-in { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: center; padding: 18px 0; }
+    .brand { text-decoration: none; font-weight: 800; letter-spacing: .11em; font-size: .92rem; display: inline-flex; align-items: center; gap: 10px; }
+    .brand-dot { display: inline-block; width: 13px; height: 13px; border-radius: 4px; background: var(--accent); transform: rotate(-12deg); }
+    .menu { display: flex; flex-wrap: wrap; align-items: center; gap: 15px; font-size: .86rem; }
+    .menu a { text-decoration: none; color: var(--muted); }
+    .menu a:hover { color: var(--ink); }
+    button { font: inherit; cursor: pointer; }
+    .theme-btn { border: 1px solid var(--line); border-radius: 999px; color: var(--ink); background: var(--panel); padding: 6px 12px; white-space: nowrap; }
+    .hero { position: relative; overflow: hidden; padding: 88px 0 85px; }
+    .hero::after { content: ""; position: absolute; right: -120px; top: 10px; width: 370px; height: 370px; background: radial-gradient(circle, rgba(83, 134, 240, .22), transparent 67%); pointer-events: none; }
+    .eyebrow { font-size: .8rem; font-weight: 800; letter-spacing: .18em; color: var(--accent); }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { font-size: clamp(2.55rem, 10vw, 5.65rem); letter-spacing: -.055em; line-height: 1.19; margin: 20px 0 24px; max-width: 850px; }
+    .gradient { background: linear-gradient(95deg, #8ab3ff, #9ce5db); color: transparent; background-clip: text; -webkit-background-clip: text; }
+    :root[data-theme="light"] .gradient { background-image: linear-gradient(95deg,#2055bc,#087c88); }
+    .lead { font-size: clamp(1rem, 2.4vw, 1.22rem); color: var(--muted); max-width: 630px; margin-bottom: 30px; }
+    .actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .cta { display: inline-block; text-decoration: none; padding: 12px 21px; border-radius: 12px; font-weight: 800; }
+    .cta-primary { background: var(--accent); color: var(--accent-ink); }
+    .cta-secondary { background: var(--panel); border: 1px solid var(--line); }
+    .section { padding: 24px 0 68px; }
+    .section-kicker { color: var(--accent); letter-spacing: .16em; font-size: .77rem; font-weight: 800; }
+    h2 { font-size: clamp(1.65rem, 5vw, 2.35rem); line-height: 1.3; letter-spacing: -.02em; margin-bottom: 15px; }
+    .section-intro { color: var(--muted); max-width: 690px; }
+    .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 15px; margin-top: 29px; }
+    .card { border: 1px solid var(--line); border-radius: 18px; padding: 26px; background: var(--panel); box-shadow: var(--shadow); }
+    .number { display: inline-block; font-weight: 900; font-size: .8rem; color: var(--accent); margin-bottom: 25px; }
+    h3 { font-size: 1.12rem; margin-bottom: 7px; }
+    .card p { color: var(--muted); font-size: .91rem; margin-bottom: 0; }
+    .about { padding: 30px; border-radius: 22px; border: 1px solid var(--line); background: var(--panel-2); }
+    .about p { max-width: 800px; margin-bottom: 0; }
+    .footer { border-top: 1px solid var(--line); color: var(--muted); font-size: .84rem; padding: 28px 0 42px; }
+    @media (max-width: 680px) {
+      .header-in { align-items: flex-start; }
+      .menu { gap: 12px; }
+      .hero { padding: 64px 0 62px; }
+      .cards { grid-template-columns: 1fr; }
+      .card { padding: 22px; }
+      .number { margin-bottom: 14px; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">本文へ移動</a>
+  <header class="header">
+    <div class="shell header-in">
+      <a class="brand" href="#top" aria-label="MY FIRST WEB トップへ"><span class="brand-dot" aria-hidden="true"></span>MY FIRST WEB</a>
+      <nav class="menu" aria-label="メインナビゲーション">
+        <a href="#features">学習内容</a>
+        <a href="#about">このサイトについて</a>
+        <button class="theme-btn" id="theme-toggle" type="button" aria-label="明るい配色に切り替える">配色を変更</button>
+      </nav>
+    </div>
+  </header>
+  <main id="main">
+    <section class="hero shell" id="top">
+      <p class="eyebrow">HELLO, WORLD.</p>
+      <h1>アイデアを、<br><span class="gradient">Webサイトに。</span></h1>
+      <p class="lead">これはChatGPT実践開発講座で作った最初のWebサイトです。スマートフォンだけで制作・公開し、次のアプリ開発へ進みます。</p>
+      <div class="actions">
+        <a class="cta cta-primary" href="#features">学習内容を見る →</a>
+        <a class="cta cta-secondary" href="#about">サイトの説明</a>
+      </div>
+    </section>
+    <section class="section shell" id="features">
+      <p class="section-kicker">LEARNING STEPS</p>
+      <h2>今回、身につけること</h2>
+      <p class="section-intro">見た目だけでなく、実際にインターネットで公開するところまでを学習します。</p>
+      <div class="cards">
+        <article class="card"><span class="number">01 / DESIGN</span><h3>画面を組み立てる</h3><p>HTMLとCSSで文章の構造や色、余白、レイアウトを指定します。</p></article>
+        <article class="card"><span class="number">02 / INTERACTION</span><h3>操作できるようにする</h3><p>JavaScriptで配色切り替えボタンを動かします。</p></article>
+        <article class="card"><span class="number">03 / PUBLISH</span><h3>インターネットで公開</h3><p>GitHub Pagesに設置し、URLから誰でも開ける状態にします。</p></article>
+      </div>
+    </section>
+    <section class="section shell" id="about">
+      <div class="about">
+        <p class="section-kicker">ABOUT THIS PROJECT</p>
+        <h2>最初の作品は、実験の場。</h2>
+        <p>このページの文章・デザイン・機能を、少しずつ自分のものに変更していきます。公開後も更新できるため、試行錯誤を重ねながらWeb開発の基本を学べます。</p>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><div class="shell">© <span id="year">2026</span> MY FIRST WEB · ChatGPT実践開発講座</div></footer>
+  <script>
+    const toggle = document.getElementById('theme-toggle');
+    const root = document.documentElement;
+    toggle.addEventListener('click', () => {
+      const isLight = root.dataset.theme === 'light';
+      root.dataset.theme = isLight ? 'dark' : 'light';
+      toggle.setAttribute('aria-label', isLight ? '明るい配色に切り替える' : '暗い配色に切り替える');
+    });
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
